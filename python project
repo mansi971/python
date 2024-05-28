@@ -1,0 +1,45 @@
+ This Python 3 environment comes with many helpful analytics libraries installed
+# It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python
+# For example, here's several helpful packages to load
+
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+
+# Input data files are available in the read-only "../input/" directory
+# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+
+
+
+
+
+import json
+
+with open('/kaggle/input/mental-health-conversational-data/intents.json', 'r') as f:
+    data = json.load(f)
+
+df = pd.DataFrame(data['intents'])
+df
+
+
+
+
+
+
+
+dic = {"tag":[], "patterns":[], "responses":[]}
+for i in range(len(df)):
+    ptrns = df[df.index == i]['patterns'].values[0]
+    rspns = df[df.index == i]['responses'].values[0]
+    tag = df[df.index == i]['tag'].values[0]
+    for j in range(len(ptrns)):
+        dic['tag'].append(tag)
+        dic['patterns'].append(ptrns[j])
+        dic['responses'].append(rspns)
+        
+df = pd.DataFrame.from_dict(dic)
+df
